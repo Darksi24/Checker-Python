@@ -1,0 +1,4 @@
+import os
+
+BOT_TOKEN = os.getenv("BOT_TOKEN", "8130718019:AAHj8cJlG3-k3eGEYMorji4k1sOLOPT88Zg")
+OWNER_ID = 6262019167
