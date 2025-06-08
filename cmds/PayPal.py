@@ -17,8 +17,22 @@ async def st_handler(msg: types.Message):
 
     await msg.answer("🔄 Procesando...")
 
+    
+
     # Ahora tu request
     try:
+
+        if numero.startswith("5"):
+            tipo = "MASTER_CARD"
+        elif numero.startswith("4"):
+            tipo = "VISA"
+        elif numero.startswith("3"):
+            tipo = "AMEX"  # o "JCB", según tu lógica
+        elif numero.startswith("6"):
+            tipo = "DISCOVER"
+        else:
+            tipo = "UNKNOWN"
+            
         cookies = {
             'enforce_policy': 'ccpa',
             'cookie_check': 'yes',
@@ -66,7 +80,7 @@ async def st_handler(msg: types.Message):
                 'token': '8UA0911501956764B',
                 'card': {
                     'cardNumber': numero,
-                    'type': 'MASTER_CARD',
+                    'type': tipo,
                     'expirationDate': f'{mes}/{ano}',
                     'postalCode': '10010',
                     'securityCode': cvv
