@@ -7,7 +7,9 @@ router = Router()
 def generar_codigo():
     return f"KEY-{random.randint(10000, 99999)}-{random.randint(1000, 9999)}"
 
-@router.message(commands=["code"])
+from aiogram.filters import Command
+
+@router.message(Command("code"))
 async def code(msg: types.Message):
     if msg.from_user.id != OWNER_ID:
         return await msg.answer("🚫 No tienes permiso.")

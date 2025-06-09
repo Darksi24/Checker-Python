@@ -2,7 +2,9 @@ from aiogram import Router, types
 
 router = Router()
 
-@router.message(commands=["claim"])
+from aiogram.filters import Command
+
+@router.message(Command("claim"))
 async def claim(msg: types.Message):
     args = msg.text.split()
     if len(args) < 2:

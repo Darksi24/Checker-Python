@@ -7,7 +7,7 @@ from config import OWNER_ID
 from middleware.premium_guard import PremiumMiddleware
 
 bot = Bot(token=BOT_TOKEN)
-dp = Dispatcher(Bot)
+dp = Dispatcher()
 
 dp.message.middleware(PremiumMiddleware())
 

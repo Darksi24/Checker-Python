@@ -24,6 +24,18 @@ async def st_handler(msg: types.Message):
     await msg.answer("🔄 Procesando...")
 
     try:
+        if numero.startswith("5"):
+            tipo = "MASTER_CARD"
+        elif numero.startswith("4"):
+            tipo = "VISA"
+        elif numero.startswith("3"):
+            tipo = "AMEX"  # o "JCB", según tu lógica
+        elif numero.startswith("6"):
+            tipo = "DISCOVER"
+        else:
+            tipo = "UNKNOWN"
+
+
         # ------------------ REQ 1: GraphQL mutation payWithCard ------------------
         cookies = {
             'enforce_policy': 'ccpa',
@@ -146,7 +158,7 @@ async def st_handler(msg: types.Message):
                 'token': '8UA0911501956764B',
                 'card': {
                     'cardNumber': numero,
-                    'type': 'MASTER_CARD',
+                    'type': tipo,
                     'expirationDate': f"{mes}/{ano}",
                     'postalCode': '10010',
                     'securityCode': cvv,
@@ -179,14 +191,26 @@ async def st_handler(msg: types.Message):
         )
 
         # Enviamos al usuario los primeros 400 caracteres de la respuesta
-        texto = response.text
-        resumen = texto[:400] + ("..." if len(texto) > 400 else "")
+        #texto = response.text
+        #resumen = texto[:400] + ("..." if len(texto) > 400 else "")
 
-        await msg.answer(
-            f"✅ Resultado:\n"
-            f"```{resumen}```",
-            parse_mode="Markdown"
-        )
+        resp_json = response.json()
+
+        if "errors" in resp_json:
+        
+                code = resp_json["errors"][0]["data"][0].get("code", "UNKNOWN")
+                message = resp_json["errors"][0].get("message", "UNKNOWN")
+
+                texto = (
+                    "PayPal\n"
+                    "=≈=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
+                    f"❌ *{numero}|{mes}|{ano}|{cvv}*\n"
+                    f"*Code:* `{code}`\n"
+                    f"*Message:* `{message}`\n"
+                    "=≈=≈=≈=≈=≈=≈=≈=≈=≈=≈="
+                )
+
+        await msg.answer(texto, parse_mode="Markdown")
 
     except Exception as e:
         await msg.answer(

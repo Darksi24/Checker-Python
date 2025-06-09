@@ -70,7 +70,7 @@ async def st_handler(msg: types.Message):
         id = json1.get("id")
         client = json1.get("client_secret")
 
-        if not source_id or not client_secret:
+        if not id or not client:
             return await msg.answer(
                 "❌ Error: No se pudo obtener id o client_secret de Stripe."
             )
@@ -101,7 +101,7 @@ async def st_handler(msg: types.Message):
             # de aquí más cookies si son necesarias para que funcione la petición
         }
 
-        headers2 = {
+        h2 = {
             "authority": "donate.ponyclub.org",
             "accept": "application/json, text/plain, */*",
             "accept-language": "es-CL,es-419;q=0.9,es;q=0.8",
@@ -259,17 +259,15 @@ async def st_handler(msg: types.Message):
         }
 
         response2 = requests.post(
-            "https://donate.ponyclub.org/api/donation",
+            'https://donate.ponyclub.org/frs-api/campaign/647035/checkout',
             cookies=cookies,
-            headers=headers2,
+            headers=h2,
             json=json_data2,
         )
-        response2.raise_for_status()
-        json2 = response2.json()
-        print("Respuesta Donate:", json2)
+        print(response2.text)
 
         # Muestra en Telegram el resultado de la segunda petición
-        await msg.answer(f"✅ Resultado:\n{json2}")
+        await msg.answer(f"✅ Resultado:\n{response2.text}")
 
     except requests.RequestException as e:
         return await msg.answer(f"❌ Error en la segunda petición: {e}")
