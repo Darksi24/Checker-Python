@@ -103,13 +103,34 @@ def verificar_stripe(numero, mes, ano, cvv):
     data=d2,
     )
 
+    data = r2.json()
 
+    dcode = data['error']['code']
+    ddcode = data['error']['decline_code']
+    message = data['error']['message']
 
-    return (
+    if error in data
+        return (
         "Stripe Auth\n"
         "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
         f"❌ {numero}|{mes}|{ano}|{cvv}\n"
-        "Status: Decline\n"
-        f"Message: {r3.text}"
+        f"Status: {dcode}"
+        f"Decline code: {ddcode}"
+        f"Message: {message}"
         "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
-    )
+        )
+    else:
+        stats = data['status']
+        return (
+        "Stripe Auth\n"
+        "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
+        f"✅ {numero}|{mes}|{ano}|{cvv}\n"
+        f"Status: {stats}"
+        "Message: Approved!"
+        "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
+        )
+        
+
+
+
+    
