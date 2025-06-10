@@ -105,31 +105,29 @@ def verificar_stripe(numero, mes, ano, cvv):
 
     data = r2.json()
 
-    dcode = data['error']['code']
-    ddcode = data['error']['decline_code']
-    message = data['error']['message']
-
-    if error in data
+    if 'error' in data:
+        dcode = data['error'].get('code', 'N/A')
+        ddcode = data['error'].get('decline_code', 'N/A')
+        message = data['error'].get('message', 'N/A')
         return (
-        "Stripe Auth\n"
-        "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
-        f"❌ {numero}|{mes}|{ano}|{cvv}\n"
-        f"Status: {dcode}"
-        f"Decline code: {ddcode}"
-        f"Message: {message}"
-        "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
+            "Stripe Auth\n"
+            "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
+            f"❌ {numero}|{mes}|{ano}|{cvv}\n"
+            f"Code: {dcode}\n"
+            f"Decline code: {ddcode}\n"
+            f"Message: {message}\n"
+            "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
         )
     else:
-        stats = data['status']
+        stats = data.get('status', 'N/A')
         return (
-        "Stripe Auth\n"
-        "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
-        f"✅ {numero}|{mes}|{ano}|{cvv}\n"
-        f"Status: {stats}"
-        "Message: Approved!"
-        "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
-        )
-        
+            "Stripe Auth\n"
+            "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
+            f"✅ {numero}|{mes}|{ano}|{cvv}\n"
+            f"Status: {stats}\n"
+            "Message: Approved!\n"
+            "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
+        )    
 
 
 
