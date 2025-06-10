@@ -89,7 +89,12 @@ def verificar_stripe(numero, mes, ano, cvv):
         files=files
     )
 
+    if 'data' in r2.json() and 'client_secret' in r2.json()['data']:
     secret = r2.json()['data']['client_secret']
+    else:
+    
+        return "❌ No se pudo obtener el client_secret"
+    
 
     # Última solicitud para verificar estado
     h3 = {
