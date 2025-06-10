@@ -64,22 +64,28 @@ def verificar_stripe(numero, mes, ano, cvv):
         json=d1,
     )
 
-    # Si el segundo request devuelve JSON válido
-    try:
-        r2_json = r2.json()
-        success = r2_json.get("success", False)
-        if success:
-            status = "Success"
-        else:
-            status = r2_json.get("error", {}).get("message", "Fallo desconocido")
-    except Exception:
-        status = "Respuesta no válida"
+    print(r2.text)
+    res = r2.json()['message']
 
-    return (
+    # Si el segundo request devuelve JSON válido
+    if res == "Your card was declined":
+        return (
+            "Stripe Fast\n"
+            "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
+            f"❌ {numero}|{mes}|{ano}|{cvv}\n"
+            "Status: Decline\n"
+            f"Message: {res}"
+        )
+    else:
+
+        return (
         "Stripe\n"
         "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
         f"✅ {numero}|{mes}|{ano}|{cvv}\n"
-        f"ID: {payment_id}\n"
-        f"Resultado: {status}\n"
+        f"Report to Admin @DSRK_24"
+        f"Resultado: {res}\n"
         "=≈=≈=≈=≈=≈=≈=≈=≈=≈="
-    )
+        )
+
+
+
