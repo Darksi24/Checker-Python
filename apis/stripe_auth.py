@@ -5,7 +5,7 @@ def verificar_stripe(numero, mes, ano, cvv):
     
     cookies_list = [
         {
-            g
+            
             'tk_or': '%22%22',
             'tk_r3d': '%22%22',
             'tk_lr': '%22%22',
