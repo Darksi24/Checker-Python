@@ -131,16 +131,16 @@ def verificar_stripe(numero, mes, ano, cvv):
                 "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
             )
 
-        else:
-            stats = data.get('status', 'N/A')
-            return (
-                "Stripe Auth\n"
-                "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
-                f"✅ {numero}|{mes}|{ano}|{cvv}\n"
-                f"Status: {stats}\n"
-                "Message: Approved!\n"
-                "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
-            )    
+
+    stats = data.get('status', 'N/A')
+    return (
+        "Stripe Auth\n"
+        "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
+        f"✅ {numero}|{mes}|{ano}|{cvv}\n"
+        f"Status: {stats}\n"
+        "Message: Approved!\n"
+        "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
+    )    
 
 
 
