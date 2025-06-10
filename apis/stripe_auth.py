@@ -109,25 +109,38 @@ def verificar_stripe(numero, mes, ano, cvv):
         dcode = data['error'].get('code', 'N/A')
         ddcode = data['error'].get('decline_code', 'N/A')
         message = data['error'].get('message', 'N/A')
-        return (
-            "Stripe Auth\n"
-            "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
-            f"❌ {numero}|{mes}|{ano}|{cvv}\n"
-            f"Code: {dcode}\n"
-            f"Decline code: {ddcode}\n"
-            f"Message: {message}\n"
-            "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
-        )
-    else:
-        stats = data.get('status', 'N/A')
-        return (
-            "Stripe Auth\n"
-            "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
-            f"✅ {numero}|{mes}|{ano}|{cvv}\n"
-            f"Status: {stats}\n"
-            "Message: Approved!\n"
-            "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
-        )    
+        if dcode == "card_declined":
+            return (
+                "Stripe Auth\n"
+                "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
+                f"❌ {numero}|{mes}|{ano}|{cvv}\n"
+                f"Code: {dcode}\n"
+                f"Decline code: {ddcode}\n"
+                f"Message: {message}\n"
+                "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
+            )
+        
+        elif dcode == "incorrect_cvc":
+            return (
+                "Stripe Auth\n"
+                "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
+                f"✅ {numero}|{mes}|{ano}|{cvv}\n"
+                f"Code: {dcode}\n"
+                f"Decline code: {ddcode}\n"
+                f"Message: {message}\n"
+                "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
+            )
+
+        else:
+            stats = data.get('status', 'N/A')
+            return (
+                "Stripe Auth\n"
+                "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
+                f"✅ {numero}|{mes}|{ano}|{cvv}\n"
+                f"Status: {stats}\n"
+                "Message: Approved!\n"
+                "=≈=≈=≈=≈=≈=≈=≈=≈=≈=\n"
+            )    
 
 
 
