@@ -13,9 +13,22 @@ from aiogram.filters import Command
 async def code(msg: types.Message):
     if msg.from_user.id != OWNER_ID:
         return await msg.answer("🚫 No tienes permiso.")
-    
+
+    args = msg.text.split()
+    if len(args) < 2:
+        return await msg.answer("Uso: /code <duración en horas>")
+
+    try:
+        horas = int(args[1])
+    except ValueError:
+        return await msg.answer("❌ La duración debe ser un número de horas.")
+
     codigo = generar_codigo()
     with open("codes.txt", "a") as f:
-        f.write(codigo + "\n")
-    
-    await msg.answer(f"- - - - - - - - - - - - - - -\n ミ★ 𝘒𝘦𝘺 𝘊𝘰𝘥𝘦: `{codigo}`\n ミ★ 𝘛𝘪𝘦𝘮𝘱𝘰: LifeTime \n - - - - - - - - - - - - - - -", parse_mode="Markdown")
+        f.write(f"{codigo}:{horas}\n")  # Guardamos en horas
+
+    await msg.answer(
+        f"ミ-★-★-★ 𝘒𝘦𝘺 𝘊𝘳𝘦𝘢𝘥𝘢 ★-★-★+彡\n"
+        f"★ Time: {horas} horas\n"
+        f"★ Code: `/claim {codigo}`", parse_mode="Markdown"
+    )
