@@ -1,13 +1,16 @@
 from aiogram import BaseMiddleware
 from aiogram.types import Message
 from typing import Callable, Awaitable, Dict
+from datetime import datetime
 
 EXCEPT_COMMANDS = ["start", "claim", "code"]
 
 class PremiumMiddleware(BaseMiddleware):
     async def __call__(
-        self, handler: Callable[[Message, Dict], Awaitable],
-        event: Message, data: Dict
+        self,
+        handler: Callable[[Message, Dict], Awaitable],
+        event: Message,
+        data: Dict
     ):
         if event.text and event.text.startswith("/"):
             command = event.text[1:].split()[0]
@@ -16,11 +19,20 @@ class PremiumMiddleware(BaseMiddleware):
 
             try:
                 with open("premium.txt", "r") as f:
-                    ids = f.read().splitlines()
-                if str(event.from_user.id) not in ids:
-                    await event.answer("🚫 Este comando es solo para usuarios premium.")
-                    return
+                    for line in f:
+                        parts = line.strip().split(":")
+                        if len(parts) == 2 and parts[0] == str(event.from_user.id):
+                            expire_ts = int(parts[1])
+                            if datetime.utcnow().timestamp() < expire_ts:
+                                return await handler(event, data)
+                            else:
+                                await event.answer("⚠️ Tu acceso premium ha expirado.")
+                                return
+                # No encontró el ID
+                await event.answer("🚫 Este comando es solo para usuarios premium.")
+                return
             except FileNotFoundError:
-                pass
+                await event.answer("🚫 Este comando es solo para usuarios premium.")
+                return
 
         return await handler(event, data)
