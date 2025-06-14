@@ -18,4 +18,4 @@ async def code(msg: types.Message):
     with open("codes.txt", "a") as f:
         f.write(codigo + "\n")
     
-    await msg.answer(f"ミ★ 𝘒𝘦𝘺 𝘸𝘢𝘴 𝘨𝘦𝘯𝘦𝘳𝘢𝘵𝘦𝘥 ★彡\nミ★ 𝘛𝘪𝘮𝘦: 𝘜𝘯𝘥𝘦𝘧𝘪𝘯𝘦𝘥 ★彡\nミ★ 𝘒𝘦𝘺 𝘊𝘰𝘥𝘦 ★彡: `{codigo}`", parse_mode="Markdown")
+    await msg.answer(f"- - - - - - - - - - - - - - -\n ミ★ 𝘒𝘦𝘺 𝘊𝘰𝘥𝘦: `{codigo}`\n ミ★ 𝘛𝘪𝘦𝘮𝘱𝘰: LifeTime \n - - - - - - - - - - - - - - -", parse_mode="Markdown")

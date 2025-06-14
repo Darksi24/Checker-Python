@@ -61,8 +61,8 @@ def stripe(username, numero, mes, ano, cvv):
   id = result['id']
   id2 = result['client_secret']
 
-  print(decode_r.text)
-  print(decode_r.json())
+  
+  
   
   url2 = 'https://api.stripe.com/v1/setup_intents/' + id + '/confirm'
   
@@ -100,7 +100,7 @@ def stripe(username, numero, mes, ano, cvv):
       'payment_method_data[muid]': '3e6cc132-16c4-47fe-a259-e46e39bd48db2d2e5e',
       'payment_method_data[sid]': 'cd73ec66-9eb9-441a-92cf-24c5323dada44e5f5d',
       'expected_payment_method_type': 'card',
-      'use_stripe_sdk': 'true',
+      'use_stripe_sdk': 'false',
       'key': 'pk_live_4M6W94FIwtPtRw97OP9aadh8',
       'client_secret': id2,
 
@@ -110,6 +110,8 @@ def stripe(username, numero, mes, ano, cvv):
   
   end = time.time()
   tiempo = str(inicio - end)[1:5]
+
+  print(final)
   
   try:
     rfinal = final['status']
