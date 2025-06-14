@@ -11,6 +11,18 @@ def stripe(username, numero, mes, ano, cvv):
   proxyies = "proxy.txt"
   inicio = time.time()
   
+  #BIN CHECKER
+  
+  bin = numero[:6]
+  
+  binu = f'https://lookup.binlist.net/{bin}'
+  
+  req = request.get(binu).json()
+  bank = req['bank']['name']
+  country = req['country']['name']
+  tipo1 = req['type']
+  tipo2 = req['brand']
+  
   with open(proxyies, 'r') as file:
     proxies_1 = file.read().splitlines()
     
@@ -134,9 +146,9 @@ def stripe(username, numero, mes, ano, cvv):
     f"⋄ ︱ Status: {msg}\n"
     f"⋄ ︱ Response: {code}\n"
     "- - - - - - - - - - - - - - -\n"
-    "⋄ ︱ Country: \n"
-    "⋄ ︱ Bank: \n"
-    "⋄ ︱ Type: \n"
+    f"⋄ ︱ Country: {country}\n"
+    f"⋄ ︱ Bank: {bank}\n"
+    f"⋄ ︱ Type: {tipo2}|{tipo1}\n"
     "- - - - - - - - - - - - - - -\n"
     "⋄ ︱ Gate: Stripe Auth\n"
     f"⋄ ︱ Time: {tiempo}\n"
