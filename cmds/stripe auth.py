@@ -1,7 +1,7 @@
 # /cmds/stripe auth.py
 from aiogram import Router, types
 from aiogram.filters import Command
-from apis.stripe_auth import verificar_stripe
+from apis.authst import stripe
 
 router = Router()
 
@@ -15,10 +15,13 @@ async def stripe_handler(msg: types.Message):
         numero, mes, ano, cvv = args[1].strip().split("|")
     except ValueError:
         return await msg.answer("❌ Debes enviar 4 datos separados por `|`", parse_mode="Markdown")
+    
+    user = msg.from_user
+    username = f"@{user.username}" if user.username else user.full_name
 
     await msg.answer("🔄 Procesando...")
 
     # Llamar a la API
-    resultado = verificar_stripe(numero, mes, ano, cvv)
+    resultado = stripe(username, numero, mes, ano, cvv)
 
     await msg.answer(resultado)
