@@ -4,8 +4,9 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from config import BOT_TOKEN  # Si prefieres puedes dejar el token directamente
 from config import OWNER_ID
-from middleware.premium_guard
-import PremiumMiddleware
+
+from middleware.premium_guard import PremiumMiddleware
+
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()

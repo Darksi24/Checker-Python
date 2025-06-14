@@ -1,5 +1,6 @@
 import requests
 import json
+import random
 
 def verificar_stripe(numero, mes, ano, cvv):
     
@@ -53,6 +54,8 @@ def verificar_stripe(numero, mes, ano, cvv):
             
         }
     ]
+
+    cookies = random.choice(cookies_list)
 
     headers = {
     'authority': 'naturalecommercestore.com',

