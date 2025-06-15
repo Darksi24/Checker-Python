@@ -1,10 +1,8 @@
 from aiogram import Router, types
+from aiogram.filters import Command
+from datetime import datetime, timedelta
 
 router = Router()
-
-from aiogram.filters import Command
-
-from datetime import datetime, timedelta
 
 @router.message(Command("claim"))
 async def claim(msg: types.Message):
@@ -14,8 +12,12 @@ async def claim(msg: types.Message):
 
     key = args[1].strip()
 
-    with open("codes.txt", "r") as f:
-        codigos = [line.strip() for line in f if line.strip()]
+    # Leer códigos válidos
+    try:
+        with open("codes.txt", "r") as f:
+            codigos = [line.strip() for line in f if line.strip()]
+    except FileNotFoundError:
+        return await msg.answer("❌ No hay códigos disponibles.")
 
     encontrado = None
     for line in codigos:
@@ -26,15 +28,29 @@ async def claim(msg: types.Message):
     if not encontrado:
         return await msg.answer("❌ Código inválido o ya canjeado.")
 
+    # Obtener duración y calcular expiración
     horas = int(encontrado.split(":")[1])
     expire_time = (datetime.utcnow() + timedelta(hours=horas)).timestamp()
-
     user_id = str(msg.from_user.id)
-    with open("premium.txt", "a") as f:
-        f.write(f"{user_id}:{int(expire_time)}\n")
 
+    # Leer premium.txt, filtrar el usuario si ya existe
+    try:
+        with open("premium.txt", "r") as f:
+            lineas = [line for line in f if not line.startswith(f"{user_id}:")]
+    except FileNotFoundError:
+        lineas = []
+
+    # Agregar nueva entrada
+    lineas.append(f"{user_id}:{int(expire_time)}\n")
+
+    # Guardar archivo actualizado
+    with open("premium.txt", "w") as f:
+        f.writelines(lineas)
+
+    # Eliminar código usado
     codigos.remove(encontrado)
     with open("codes.txt", "w") as f:
         f.write("\n".join(codigos) + "\n")
 
-    await msg.answer(f"✅ Código canjeado.\nPremium activado por {horas} horas.")
+    hora_local = datetime.utcfromtimestamp(expire_time).strftime("%Y-%m-%d %H:%M:%S")
+    await msg.answer(f"✅ Código canjeado.\n★-★-★-★-★-★-★-★-★\nPremium activado por {horas} horas.\n★-★-★-★-★-★-★-★-★\n🕓 Expira: {hora_local}")
