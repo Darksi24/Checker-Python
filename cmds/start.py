@@ -5,7 +5,7 @@ from aiogram.filters import Command
 router = Router()
 
 # Comando que envía el mensaje con botones
-@router.message(Command(["cmds", "start"]))
+@router.message(Command(commands=["cmds", "start"]))
 async def cmds_handler(msg: types.Message):
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [
@@ -19,7 +19,7 @@ async def cmds_handler(msg: types.Message):
 # Callback que edita el mensaje original
 @router.callback_query(F.data == "show_cmds")
 async def show_cmds_callback(callback: types.CallbackQuery):
-    await callback.message.edit_text(
+    await callback.message.edit_caption(
         "★-★-★-★-★-★-★-★-★-★-★\n\n"
         "⟨⟨ Stripe Auth ⟩⟩\n"
         "⟨⟨ Status: On ✅ ⟩⟩\n"
