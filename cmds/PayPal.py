@@ -4,13 +4,13 @@ import requests
 
 router = Router()
 
-@router.message(Command("st"))
+@router.message(Command("pp"))
 async def st_handler(msg: types.Message):
     args = msg.text.split(" ", maxsplit=1)
     if len(args) < 2:
         return await msg.answer(
             "❌ Formato incorrecto.\n"
-            "Ejemplo: /st 4111111111111111|12|2026|123"
+            "Ejemplo: /pp 4111111111111111|12|2026|123"
         )
 
     try:

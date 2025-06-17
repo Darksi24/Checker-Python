@@ -37,9 +37,7 @@ def stripe(username, numero, mes, ano, cvv):
   
   headers = {
     'Accept': 'application/json',
-
     'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8',
-
     'Cache-Control': 'no-cache',
     'Connection': 'keep-alive',
     'Origin': 'https://dashboard.switcherstudio.com',
