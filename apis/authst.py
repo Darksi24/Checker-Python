@@ -13,6 +13,16 @@ def stripe(username, numero, mes, ano, cvv):
   
   #BIN CHECKER
   
+  bin = numero[:6]
+  
+  b_data = requests.get(f"https://bins.antipublic.cc/bins/{bin}").json
+  
+  pais = b_data['country_name']
+  flag = b_data['country_flag']
+  bank = b_data['bank']
+  brand = b_data['brand']
+  level = b_data['level']
+  tipo = b_data['type']
   
 
   
@@ -144,15 +154,15 @@ def stripe(username, numero, mes, ano, cvv):
         code = rend
   
   return (
-    f"⋄ ︱ CC: {numero}|{mes}|{ano}|{cvv}\n"
-    f"⋄ ︱ Status: {msg}\n"
-    f"⋄ ︱ Response: {code}\n"
+    f"⋄ ︱ *CC*: {numero}|{mes}|{ano}|{cvv}\n"
+    f"⋄ ︱ *Status*: {msg}\n"
+    f"⋄ ︱ *Response*: {code}\n"
     "- - - - - - - - - - - - - - -\n"
-    f"⋄ ︱ Country: \n"
-    f"⋄ ︱ Bank: \n"
-    f"⋄ ︱ Type: \n"
+    f"⋄ ︱ *Country*: {pais} - {flag}\n"
+    f"⋄ ︱ *Bank*: {bank}\n"
+    f"⋄ ︱ *Type*: {brand} - {level} - {tipo} \n"
     "- - - - - - - - - - - - - - -\n"
-    "⋄ ︱ Gate: Stripe Auth\n"
-    f"⋄ ︱ Time: {tiempo}\n"
-    f"⋄ ︱ Checked By : {username}\n"
+    "⋄ ︱ *Gate*: Stripe Auth\n"
+    f"⋄ ︱ *Time*: {tiempo}\n"
+    f"⋄ ︱ *Checked By* : {username}\n"
   )

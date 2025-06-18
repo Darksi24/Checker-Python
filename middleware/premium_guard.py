@@ -4,7 +4,6 @@ from typing import Callable, Awaitable, Dict
 from datetime import datetime
 
 EXCEPT_COMMANDS = ["cmds", "start", "claim", "code"]
-PREFIX = ("/", ".", "!", "?", "$")
 
 class PremiumMiddleware(BaseMiddleware):
     async def __call__(
@@ -13,7 +12,7 @@ class PremiumMiddleware(BaseMiddleware):
         event: Message,
         data: Dict
     ):
-        if event.text and event.text.startswith(PREFIX):
+        if event.text and event.text.startswith("/"):  # Opcional, o incluso omitir:
             command = event.text[1:].split()[0]
             if command in EXCEPT_COMMANDS:
                 return await handler(event, data)

@@ -2,10 +2,11 @@
 from aiogram import Router, types
 from aiogram.filters import Command
 from apis.authst import stripe
+from utils.custom_command import CustomCommand
 
 router = Router()
 
-@router.message(Command("auth"))
+@router.message(CustomCommand("auth"))
 async def stripe_handler(msg: types.Message):
     args = msg.text.split(" ", maxsplit=1)
     if len(args) < 2:
@@ -24,4 +25,4 @@ async def stripe_handler(msg: types.Message):
     # Llamar a la API
     resultado = stripe(username, numero, mes, ano, cvv)
 
-    await msg.answer(resultado)
+    await msg.edit_text(resultado, parse_mode="Markdown")
