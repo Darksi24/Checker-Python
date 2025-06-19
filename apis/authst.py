@@ -15,7 +15,7 @@ def stripe(username, numero, mes, ano, cvv):
   
   bin = numero[:6]
   
-  b_data = requests.get(f"https://bins.antipublic.cc/bins/{bin}").json
+  b_data = requests.get(f"https://bins.antipublic.cc/bins/{bin}").json()
   
   pais = b_data['country_name']
   flag = b_data['country_flag']
@@ -154,15 +154,15 @@ def stripe(username, numero, mes, ano, cvv):
         code = rend
   
   return (
-    f"⋄ ︱ *CC*: {numero}|{mes}|{ano}|{cvv}\n"
-    f"⋄ ︱ *Status*: {msg}\n"
-    f"⋄ ︱ *Response*: {code}\n"
-    "- - - - - - - - - - - - - - -\n"
-    f"⋄ ︱ *Country*: {pais} - {flag}\n"
-    f"⋄ ︱ *Bank*: {bank}\n"
-    f"⋄ ︱ *Type*: {brand} - {level} - {tipo} \n"
-    "- - - - - - - - - - - - - - -\n"
-    "⋄ ︱ *Gate*: Stripe Auth\n"
-    f"⋄ ︱ *Time*: {tiempo}\n"
-    f"⋄ ︱ *Checked By* : {username}\n"
+    f"⋄ ︱ <b>CC</b>: {numero}|{mes}|{ano}|{cvv}\n"
+    f"⋄ ︱ <b>Status</b>: {msg}\n"
+    f"⋄ ︱ <b>Response</b>: {code}\n"
+    f"- - - - - - - - - - - - - - -\n"
+    f"⋄ ︱ <b>Country</b>: {pais} - {flag}\n"
+    f"⋄ ︱ <b>Bank</b>: {bank}\n"
+    f"⋄ ︱ <b>Type</b>: {brand} - {level} - {tipo} \n"
+    f"- - - - - - - - - - - - - - -\n"
+    f"⋄ ︱ <b>Gate</b>: Stripe Auth\n"
+    f"⋄ ︱ <b>Time</b>: {tiempo}\n"
+    f"⋄ ︱ <b>Checked By</b> : {username}\n"
   )
