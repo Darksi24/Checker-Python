@@ -26,9 +26,13 @@ async def show_cmds_callback(callback: types.CallbackQuery):
         "⟨⟨ *Status:* On ✅ ⟩⟩\n"
         "⟨⟨ *Use:* /auth CC|M|Y|CVV ⟩⟩\n"
         "★-★-★-★-★-★-★-★-★-★-★\n"
-        "⟨⟨ *Square* ⟩⟩\n"
+        "⟨⟨ *Braintree* ⟩⟩\n"
         "⟨⟨ *Status:* off 🚫⟩⟩\n"
-        "⟨⟨ *Use:* /sq CC|M|Y|CVV ⟩⟩\n"
+        "⟨⟨ *Use:* /bra CC|M|Y|CVV ⟩⟩\n"
+        "★-★-★-★-★-★-★-★-★-★-★\n"
+        "⟨⟨ *Braintree Auth* ⟩⟩\n"
+        "⟨⟨ *Status:* off 🚫⟩⟩\n"
+        "⟨⟨ *Use:* /bra CC|M|Y|CVV ⟩⟩\n"
         "★-★-★-★-★-★-★-★-★-★-★\n"
         ),
         parse_mode="Markdown",
