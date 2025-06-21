@@ -148,6 +148,11 @@ def stripe(username, numero, mes, ano, cvv):
         
         msg = "Approved CVV! ✅"
         code = rend
+        
+      elif "Your card's security code is invalid." in rend:
+        
+        msg = "Approved CCN! ✅"
+        code = rend
 
       else:
         msg = "Decline! ❌"
