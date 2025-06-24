@@ -11,13 +11,13 @@ async def mass_handler(msg: types.Message):
     args = msg.text.split(maxsplit=2)
 
     if len(args) < 3:
-        return await msg.answer("❌ Uso: /mass auth lista\nSeparar tarjetas por línea.")
+        return await msg.answer("❌ Uso: /mass auth lista\nSeparar cc por línea.")
 
     gate = args[1].lower()
     lista = args[2].strip().splitlines()
 
     if len(lista) > 10:
-        return await msg.answer("⚠️ Máximo 10 tarjetas por uso.")
+        return await msg.answer("⚠️ Máximo 10 cc por uso.")
 
     await msg.answer(f"🔄 Procesando {len(lista)} tarjetas con {gate.title()}...")
 
