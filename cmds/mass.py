@@ -1,49 +1,39 @@
 from aiogram import Router, types
 from aiogram.filters import Command
-from apis.authst import stripe 
 from utils.prefixs import CustomCommand
-# Asegúrate de importar tu función correctamente
+from apis.authstM import stripeM  # tu función resumida
+import asyncio
 
 router = Router()
 
 @router.message(CustomCommand("mass"))
 async def mass_handler(msg: types.Message):
-    lines = msg.text.splitlines()
+    args = msg.text.split(maxsplit=2)
 
-    if len(lines) < 2:
-        return await msg.answer("❌ Uso: /mass [tipo]\nLuego coloca las cc en líneas separadas.")
+    if len(args) < 3:
+        return await msg.answer("❌ Uso: /mass auth lista\nSeparar tarjetas por línea.")
 
-    # Validar nombre de la API
-    args = lines[0].split()
-    if len(args) < 2 or args[1].lower() != "auth":
-        return await msg.answer("❌ no soportada o no indicada.\nUsa: `/mass [tipo]`", parse_mode="Markdown")
+    gate = args[1].lower()
+    lista = args[2].strip().splitlines()
 
-    tarjetas = lines[1:]
-    if len(tarjetas) > 10:
-        return await msg.answer("⚠️ Solo puedes enviar un máximo de 10 ccs por uso.")
+    if len(lista) > 10:
+        return await msg.answer("⚠️ Máximo 10 tarjetas por uso.")
 
-    user = msg.from_user
-    username = f"@{user.username}" if user.username else user.full_name
-    
-    tarjetas = [line.strip() for line in lines[1:] if line.strip() and line.count("|") == 3]
-
-    await msg.answer(f"🔄 Procesando {len(tarjetas)} con *mass*...", parse_mode="Markdown")
+    await msg.answer(f"🔄 Procesando {len(lista)} tarjetas con {gate.title()}...")
 
     resultados = []
-    for i, linea in enumerate(tarjetas, 1):
+
+    for i, tarjeta in enumerate(lista):
         try:
-            numero, mes, ano, cvv = linea.strip().split("|")
-            raw = stripe(username, numero, mes, ano, cvv)
+            numero, mes, ano, cvv = tarjeta.strip().split("|")
+        except ValueError:
+            resultados.append(f"{i+1}. ❌ Formato inválido.")
+            continue
 
-            # Extraer líneas específicas del resultado
-            cc_line = next((l for l in raw.splitlines() if "CC:" in l), "")
-            status_line = next((l for l in raw.splitlines() if "Status:" in l), "")
-            response_line = next((l for l in raw.splitlines() if "Response:" in l), "")
+        # Simulación del proceso
+        resultado = await stripe_light(msg.from_user.username or msg.from_user.full_name, numero, mes, ano, cvv)
 
-            resultado = f"{i}. {cc_line}\n   {status_line}\n   {response_line}"
-            resultados.append(resultado)
-        except Exception:
-            resultados.append(f"{i}. ❌ Error en : `{linea}`")
+        resultados.append(f"{i+1}. {resultado}")
+        await asyncio.sleep(5)
 
-    final = "\n\n".join(resultados)
-    await msg.answer(final[:4096], parse_mode="HTML")
+    await msg.answer("\n\n".join(resultados), parse_mode="HTML")
