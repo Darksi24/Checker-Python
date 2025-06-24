@@ -1,6 +1,8 @@
 from aiogram import Router, types
 from aiogram.filters import Command
-from apis.authst import stripe  # Asegúrate de importar tu función correctamente
+from apis.authst import stripe 
+from utils.prefixs import CustomCommand
+# Asegúrate de importar tu función correctamente
 
 router = Router()
 
