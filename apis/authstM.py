@@ -5,7 +5,7 @@ import time
 import base64
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
-
+import asyncio
 
 def stripeM(username, numero, mes, ano, cvv): 
   proxyies = "proxy.txt"
@@ -115,7 +115,7 @@ def stripeM(username, numero, mes, ano, cvv):
   }
   
   final = session.post(url2, headers=h2, data=data, proxies=proxie).json()
-  
+  sleep(2)
   end = time.time()
   tiempo = str(inicio - end)[1:5]
 
