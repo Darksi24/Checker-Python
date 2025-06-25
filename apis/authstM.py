@@ -115,7 +115,7 @@ def stripeM(username, numero, mes, ano, cvv):
   }
   
   final = session.post(url2, headers=h2, data=data, proxies=proxie).json()
-  sleep(2)
+  asyncio.sleep(2)
   end = time.time()
   tiempo = str(inicio - end)[1:5]
 
