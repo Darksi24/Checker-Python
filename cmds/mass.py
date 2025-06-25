@@ -31,7 +31,7 @@ async def mass_handler(msg: types.Message):
             continue
 
         # Simulación del proceso
-        resultado = await stripe_light(msg.from_user.username or msg.from_user.full_name, numero, mes, ano, cvv)
+        resultado = await stripeM(msg.from_user.username or msg.from_user.full_name, numero, mes, ano, cvv)
 
         resultados.append(f"{i+1}. {resultado}")
         await asyncio.sleep(5)
