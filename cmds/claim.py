@@ -11,6 +11,9 @@ async def claim(msg: types.Message):
         return await msg.answer("Uso correcto: /claim KEY-XXXXX-XXXX")
 
     key = args[1].strip()
+    user = msg.from_user
+    username = f"@{user.username}" if user.username else user.full_name
+
 
     # Leer códigos válidos
     try:
@@ -52,5 +55,5 @@ async def claim(msg: types.Message):
     with open("codes.txt", "w") as f:
         f.write("\n".join(codigos) + "\n")
 
-    hora_local = datetime.utcfromtimestamp(expire_time).strftime("%Y-%m-%d %H:%M:%S")
-    await msg.answer(f"✅ Código canjeado.\n★-★-★-★-★-★-★-★-★\nPremium activado por {horas} horas.\n★-★-★-★-★-★-★-★-★\n🕓 Expira: {hora_local}")
+    hora_local = datetime.utcfromtimestamp(expire_time).strftime("%d-%m-%y %H:%M:%S")
+    await msg.answer(f"✅ Código canjeado.\n╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌\nPremium activado\n╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌\n➵ Time: {horas}\n ➵ End: {hora_local}\n╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌\n By: {username}")

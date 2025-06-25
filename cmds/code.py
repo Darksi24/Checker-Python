@@ -28,7 +28,11 @@ async def code(msg: types.Message):
         f.write(f"{codigo}:{horas}\n")  # Guardamos en horas
 
     await msg.answer(
-        f"ミ-★-★-★ 𝘒𝘦𝘺 𝘊𝘳𝘦𝘢𝘥𝘢 ★-★-★+彡\n"
-        f"★ Time: {horas} horas\n"
-        f"★ Code: `/claim {codigo}`", parse_mode="Markdown"
+        f"〔 Key was generated ❳ \n"
+        f"╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌\n"
+        f"━\n"
+        f"➵ Time: {horas} horas\n"
+        f"━\n"
+        f"➵ Use: `/claim {codigo}`\n"
+        f"╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌", parse_mode="Markdown"
     )
