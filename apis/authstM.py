@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import asyncio
 
-def stripeM(username, numero, mes, ano, cvv): 
+async def stripeM(username, numero, mes, ano, cvv): 
   proxyies = "proxy.txt"
   inicio = time.time()
   
